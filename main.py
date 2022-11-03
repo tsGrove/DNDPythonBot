@@ -40,19 +40,11 @@ async def search(cxt, arg):
 async def spell_search(cxt, arg):
     spell_endpoint = f"https://www.dnd5eapi.co/api/spells/{arg}"
     url = requests.get(url=spell_endpoint)
-    print(url.raise_for_status())
-    if url.raise_for_status == 200:
-        spell_desc = url.json()['desc']
-        spell_duration = url.json()['duration']
-        spell_damage = url.json()['damage']['damage_type']['name']
-        spell_info = spell_desc, spell_duration, spell_damage
-        await cxt.send(spell_info)
+    spell_desc = url.json()['desc']
+    spell_duration = url.json()['duration']
+    spell_damage = url.json()['damage']['damage_type']['name']
+    spell_info = spell_desc, spell_duration, spell_damage
+    await cxt.send(spell_info)
 
-    elif url.raise_for_status == 404:
-        await cxt.send("Sorry, looks like what you searched for doesn't exist!\n"
-                       "Maybe check for spelling.")
-
-    else:
-        await cxt.send("We aren't sure whats going on right now, I apologise!")
 
 bot.run(BOT_TOKEN)
