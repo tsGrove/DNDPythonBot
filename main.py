@@ -3,14 +3,14 @@ from discord.ext import commands
 import requests
 from env import BOT_TOKEN
 import json
-
+import lists
 
 def searchable(x):
     x = x.lower()
     x = x.strip()
     x = x.replace(" ", "-")
     x = x.replace("_", "-")
-
+    x = x.replace(".", "-")
     return x
 
 
@@ -47,7 +47,6 @@ async def spell_search(cxt, arg):
     arg = searchable(arg)
     spell_endpoint = f"https://www.dnd5eapi.co/api/spells/{arg}"
     url = requests.get(url=spell_endpoint)
-    print(arg)
     spell_data = (json.loads(url.content))
     if url.status_code == 200:
         if 'damage' in spell_data:
@@ -73,11 +72,36 @@ async def spell_search(cxt, arg):
             await cxt.send(spell_info)
 
     elif url.status_code == 404:
-        await cxt.send("Unfortunately the page you're searching for doesnt exist! "
-                       "Maybe check spelling or a different command.")
+        await cxt.send("Unfortunately the page you're searching for doesnt exist!"
+                       "Maybe check spelling or a different command.\n"
+                       "If searching for a spell with two words, like animate dead, be sure to include a symbol seperating the "
+                       "words, like -, _, or a period.")
 
     else:
-        print("Yeah king ngl we aren't sure whats happening rn. gl and gg")
+        print("Unfortunately we aren't sure whats going on! API or the server might be down, sorry :-(")
 
 
+@bot.command()
+async def spell_list(cxt, arg):
+    if arg in lists.spell_schools:
+        spell_endpoint = f"https://www.dnd5eapi.co/api/spells?school={arg}"
+        url = requests.get(url=spell_endpoint)
+        information = json.loads(url.content)
+        entry = 0
+        spells = []
+        for spell in information['results']:
+            spells.append(information['results'][entry]['name'])
+            entry += 1
+        await cxt.send(spells)
+
+    else:
+        spell_endpoint = f"https://www.dnd5eapi.co/api/spells?level={arg}"
+        url = requests.get(url=spell_endpoint)
+        information = json.loads(url.content)
+        entry = 0
+        spells = []
+        for spell in information['results']:
+            spells.append(information['results'][entry]['name'])
+            entry += 1
+        await cxt.send(spells)
 bot.run(BOT_TOKEN)

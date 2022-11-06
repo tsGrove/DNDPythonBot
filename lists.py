@@ -1,0 +1,1 @@
+spell_schools = ["evocation", "necromancy", "enchantment", "divination", "abjuration", "transmutation", "conjuration", "illusion"]
