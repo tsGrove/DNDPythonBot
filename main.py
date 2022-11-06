@@ -28,8 +28,10 @@ async def on_ready():
 async def info(cxt):
     await cxt.send("Hi! Im a Dungeons and Dragons search bot designed by Shea. "
                    "Here are a list of commands I have avaliable:\n"
-                   "!ability-search\n"
-                   "!spell-search\n")
+                   "!spell-search: A command capable of searching spells returning: A description, duration, "
+                   "damage-type (if the spell has one), range, components required, is the spell requires concentration"
+                   " or not, and the casting time. \n"
+                   "!spell_list: Creates a list of spells for the user based on either School of Magic, or spell level.")
 
 
 @bot.command()
