@@ -5,6 +5,7 @@ from env import BOT_TOKEN
 import json
 import lists
 
+
 def searchable(x):
     x = x.lower()
     x = x.strip()
@@ -35,13 +36,15 @@ async def info(cxt):
 
 
 @bot.command()
-async def search(cxt, arg):
-    API_ENDPOINT = f"https://www.dnd5eapi.co/api/{arg}"
-    url = requests.get(url=API_ENDPOINT)
+async def class_info(cxt, arg):
+    class_endpoint = f"https://www.dnd5eapi.co/api/classes/{arg}"
+    searchable(arg)
+    url = requests.get(url=class_endpoint)
     url.raise_for_status()
-    result = url.json()['desc'][1]
-    print(result)
-    await cxt.send(result)
+    class_data = (json.loads(url.content))
+    if url.status_code == 200:
+        print(class_data)
+
 
 
 @bot.command()
@@ -59,9 +62,8 @@ async def spell_search(cxt, arg):
             spell_components = spell_data['components']
             spell_concentration = spell_data['concentration']
             spell_cast_time = spell_data['casting_time']
-            spell_info = spell_desc, spell_duration, spell_damage, spell_range, spell_components, spell_concentration, \
-                         spell_cast_time
-            await cxt.send(spell_info)
+            await cxt.send(f"Description: {spell_desc}, Duration: {spell_duration}, Damage: {spell_damage}")
+            await cxt.send(f"Range: {spell_range}, Components Needed: {spell_components}, Need Concentration? {spell_concentration}. Cast Time: {spell_cast_time}")
 
         else:
             spell_desc = spell_data['desc']
@@ -70,8 +72,8 @@ async def spell_search(cxt, arg):
             spell_components = spell_data['components']
             spell_concentration = spell_data['concentration']
             spell_cast_time = spell_data['casting_time']
-            spell_info = spell_desc, spell_duration, spell_range, spell_components, spell_concentration, spell_cast_time
-            await cxt.send(spell_info)
+            await cxt.send(f"Description: {spell_desc}, Duration: {spell_duration}")
+            await cxt.send(f"Range: {spell_range}, Components Needed: {spell_components}, Need Concentration? {spell_concentration}. Cast Time: {spell_cast_time}")
 
     elif url.status_code == 404:
         await cxt.send("Unfortunately the page you're searching for doesnt exist!"
@@ -96,7 +98,7 @@ async def spell_list(cxt, arg):
             entry += 1
         await cxt.send(spells)
 
-    else:
+    elif arg in lists.spell_levels:
         spell_endpoint = f"https://www.dnd5eapi.co/api/spells?level={arg}"
         url = requests.get(url=spell_endpoint)
         information = json.loads(url.content)
@@ -106,4 +108,9 @@ async def spell_list(cxt, arg):
             spells.append(information['results'][entry]['name'])
             entry += 1
         await cxt.send(spells)
+
+    else:
+        await cxt.send("Yo we couldn't find what you was looking for sorry king, maybe trying checking spelling"
+                       "or making sure you entered just one number for spell levels. ")
+
 bot.run(BOT_TOKEN)
