@@ -43,8 +43,27 @@ async def class_info(cxt, arg):
     url.raise_for_status()
     class_data = (json.loads(url.content))
     if url.status_code == 200:
-        print(class_data)
 
+        class_name = class_data['name']
+        hit_die = class_data['hit_die']
+        class_prof = class_data['proficiency_choices']
+        num_of_prof = class_data['proficiency_choices'][0]['choose']
+        skill_prof = class_prof[0]['from']['options']
+        starting_profs = class_data['proficiencies']
+
+        skills = []
+        free_shit = []
+
+        for item in starting_profs:
+            start = item['name']
+            free_shit.append(start)
+
+        for skill in skill_prof:
+            skill_variable = skill['item']['name']
+            skill_variable = skill_variable.replace('Skill: ', '')
+            skills.append(skill_variable)
+        await cxt.send(f"Class: {class_name}, Hit Die: d{hit_die}, Can pick {num_of_prof} proficiencies, from: {skills}")
+        await cxt.send(f"The {class_name} gains these proficiencies by default: {free_shit}")
 
 
 @bot.command()
