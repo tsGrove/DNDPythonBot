@@ -28,11 +28,16 @@ async def on_ready():
 @bot.command()
 async def info(cxt):
     await cxt.send("Hi! Im a Dungeons and Dragons search bot designed by Shea. "
-                   "Here are a list of commands I have avaliable:\n"
-                   "!spell-search: A command capable of searching spells returning: A description, duration, "
-                   "damage-type (if the spell has one), range, components required, is the spell requires concentration"
-                   " or not, and the casting time. \n"
-                   "!spell_list: Creates a list of spells for the user based on either School of Magic, or spell level.")
+                   "Here are a list of commands I have available:\n"
+                   "!spell-search: Returns information about a desired spell, "
+                   "separate two word spells with a character, like , . - or _\n"
+                   "!spell_list: Creates a list of spells for the user based on "
+                   "either School of Magic, or spell level.\n"
+                   "!class_info: Returns information about specified class including proficiencies,"
+                   " hit die, spellcasting, and class features.\n"
+                   "!skills: Gives a brief description of a skill as well as its governing ability.\n"
+                   "!ability_score:A brief description of the ability check as well as skills it governs.")
+
 
 
 @bot.command()
@@ -84,7 +89,8 @@ async def spell_search(cxt, arg):
             spell_concentration = spell_data['concentration']
             spell_cast_time = spell_data['casting_time']
             await cxt.send(f"Description: {spell_desc}, Duration: {spell_duration}, Damage: {spell_damage}")
-            await cxt.send(f"Range: {spell_range}, Components Needed: {spell_components}, Need Concentration? {spell_concentration}. Cast Time: {spell_cast_time}")
+            await cxt.send(f"Range: {spell_range}, Components Needed: {spell_components}, "
+                           f"Need Concentration? {spell_concentration}. Cast Time: {spell_cast_time}")
 
         else:
             spell_desc = spell_data['desc']
@@ -94,7 +100,8 @@ async def spell_search(cxt, arg):
             spell_concentration = spell_data['concentration']
             spell_cast_time = spell_data['casting_time']
             await cxt.send(f"Description: {spell_desc}, Duration: {spell_duration}")
-            await cxt.send(f"Range: {spell_range}, Components Needed: {spell_components}, Need Concentration? {spell_concentration}. Cast Time: {spell_cast_time}")
+            await cxt.send(f"Range: {spell_range}, Components Needed: {spell_components}, "
+                           f"Need Concentration? {spell_concentration}. Cast Time: {spell_cast_time}")
 
     elif url.status_code == 404:
         await cxt.send("Unfortunately the page you're searching for doesnt exist!"
@@ -162,4 +169,9 @@ async def ability_score(cxt, arg):
         await cxt.send(ability_info['full_name'])
         await cxt.send(ability_info['desc'])
 
+    else:
+        await cxt.send("We couldn't locate the ability score you are in search of,"
+                       " maybe check your spelling and remember:")
+        await cxt.send("Charisma - cha, Constitution - con, Dexterity - dex, "
+                       "Intelligence - int, Strength - str, Wisdom - wis")
 bot.run(BOT_TOKEN)
