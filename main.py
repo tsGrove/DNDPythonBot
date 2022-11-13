@@ -37,8 +37,8 @@ async def info(cxt):
 
 @bot.command()
 async def class_info(cxt, arg):
+    arg = searchable(arg)
     class_endpoint = f"https://www.dnd5eapi.co/api/classes/{arg}"
-    searchable(arg)
     url = requests.get(url=class_endpoint)
     url.raise_for_status()
     class_data = (json.loads(url.content))
@@ -62,6 +62,7 @@ async def class_info(cxt, arg):
             skill_variable = skill['item']['name']
             skill_variable = skill_variable.replace('Skill: ', '')
             skills.append(skill_variable)
+
         await cxt.send(f"Class: {class_name}, Hit Die: d{hit_die}, Can pick {num_of_prof} proficiencies, from: {skills}")
         await cxt.send(f"The {class_name} gains these proficiencies by default: {free_shit}")
 
@@ -73,6 +74,7 @@ async def spell_search(cxt, arg):
     url = requests.get(url=spell_endpoint)
     spell_data = (json.loads(url.content))
     if url.status_code == 200:
+
         if 'damage' in spell_data:
             spell_desc = spell_data['desc']
             spell_duration = spell_data['duration']
@@ -97,8 +99,8 @@ async def spell_search(cxt, arg):
     elif url.status_code == 404:
         await cxt.send("Unfortunately the page you're searching for doesnt exist!"
                        "Maybe check spelling or a different command.\n"
-                       "If searching for a spell with two words, like animate dead, be sure to include a symbol seperating the "
-                       "words, like -, _, or a period.")
+                       "If searching for a spell with two words, like animate dead, "
+                       "be sure to include a symbol separating the words, like -, _, or a period.")
 
     else:
         print("Unfortunately we aren't sure whats going on! API or the server might be down, sorry :-(")
@@ -110,8 +112,10 @@ async def spell_list(cxt, arg):
         spell_endpoint = f"https://www.dnd5eapi.co/api/spells?school={arg}"
         url = requests.get(url=spell_endpoint)
         information = json.loads(url.content)
+
         entry = 0
         spells = []
+
         for spell in information['results']:
             spells.append(information['results'][entry]['name'])
             entry += 1
@@ -121,8 +125,10 @@ async def spell_list(cxt, arg):
         spell_endpoint = f"https://www.dnd5eapi.co/api/spells?level={arg}"
         url = requests.get(url=spell_endpoint)
         information = json.loads(url.content)
+
         entry = 0
         spells = []
+
         for spell in information['results']:
             spells.append(information['results'][entry]['name'])
             entry += 1
@@ -131,5 +137,29 @@ async def spell_list(cxt, arg):
     else:
         await cxt.send("Yo we couldn't find what you was looking for sorry king, maybe trying checking spelling"
                        "or making sure you entered just one number for spell levels. ")
+
+@bot.command()
+async def skills(cxt, arg):
+    arg = searchable(arg)
+    skill_endpoint = f"https://www.dnd5eapi.co/api/skills/{arg}"
+    url = requests.get(url=skill_endpoint)
+    if url.status_code == 200 and arg in lists.skill_list:
+        skill_info = json.loads(url.content)
+        await cxt.send(skill_info['name'])
+        await cxt.send(skill_info['desc'])
+
+    else:
+        await cxt.send("Sorry, we couldn't find the skill you're looking for. "
+                       "Maybe check spelling or a different command!")
+
+@bot.command()
+async def ability_score(cxt, arg):
+    arg = searchable(arg)
+    ability_endpoint = f"https://www.dnd5eapi.co/api/ability-scores/{arg}"
+    url = requests.get(url=ability_endpoint)
+    if url.status_code == 200 and arg in lists.ability_scores:
+        ability_info = json.loads(url.content)
+        await cxt.send(ability_info['full_name'])
+        await cxt.send(ability_info['desc'])
 
 bot.run(BOT_TOKEN)
