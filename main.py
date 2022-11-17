@@ -4,6 +4,7 @@ import requests
 from env import BOT_TOKEN
 import json
 import lists
+import featrues
 
 
 def searchable(x):
@@ -34,16 +35,17 @@ async def info(cxt):
                    "!spell_list: Creates a list of spells for the user based on "
                    "either School of Magic, or spell level.\n"
                    "!class_info: Returns information about specified class including proficiencies,"
-                   " hit die, spellcasting, and class features.\n"
+                   " hit die, spell-casting, and class features.\n"
                    "!skills: Gives a brief description of a skill as well as its governing ability.\n"
-                   "!ability_score:A brief description of the ability check as well as skills it governs.")
-
+                   "!ability_score:A brief description of the ability check as well as skills it governs,"
+                   "be sure to use the 3 characters associated with the ability, not full name.")
 
 
 @bot.command()
 async def class_info(cxt, arg):
     arg = searchable(arg)
     class_endpoint = f"https://www.dnd5eapi.co/api/classes/{arg}"
+    spellcasting_info = f"https://www.dnd5eapi.co/api/classes/{arg}/spellcasting"
     url = requests.get(url=class_endpoint)
     url.raise_for_status()
     class_data = (json.loads(url.content))
@@ -68,8 +70,33 @@ async def class_info(cxt, arg):
             skill_variable = skill_variable.replace('Skill: ', '')
             skills.append(skill_variable)
 
-        await cxt.send(f"Class: {class_name}, Hit Die: d{hit_die}, Can pick {num_of_prof} proficiencies, from: {skills}")
+        await cxt.send(
+            f"Class: {class_name}, Hit Die: d{hit_die}, Can pick {num_of_prof} proficiencies, from: {skills}")
         await cxt.send(f"The {class_name} gains these proficiencies by default: {free_shit}")
+        await cxt.send("Would you like to hear about your class spell-casting as well?")
+
+        msg = await bot.wait_for("message")
+
+        if msg.content == 'yes'.lower():
+
+            url2 = requests.get(url=spellcasting_info)
+            if url2.status_code == 200:
+                try:
+                    url2.raise_for_status()
+                    spellcasting_data = json.loads(url2.content)
+                    number = 0
+                    for desc in spellcasting_data['info']:
+                        number += 1
+                        await cxt.send(spellcasting_data['info'][number]['desc'])
+                except IndexError:
+                    pass
+
+        elif msg.content == 'no'.lower():
+            await cxt.send('Well okay :-)')
+
+        else:
+            await cxt.send("Sorry! It looks like your class doesn't have spellcasting as an ability, or "
+                           "you entered a response that im not familiar with.")
 
 
 @bot.command()
@@ -145,6 +172,7 @@ async def spell_list(cxt, arg):
         await cxt.send("Yo we couldn't find what you was looking for sorry king, maybe trying checking spelling"
                        "or making sure you entered just one number for spell levels. ")
 
+
 @bot.command()
 async def skills(cxt, arg):
     arg = searchable(arg)
@@ -158,6 +186,7 @@ async def skills(cxt, arg):
     else:
         await cxt.send("Sorry, we couldn't find the skill you're looking for. "
                        "Maybe check spelling or a different command!")
+
 
 @bot.command()
 async def ability_score(cxt, arg):
@@ -174,4 +203,57 @@ async def ability_score(cxt, arg):
                        " maybe check your spelling and remember:")
         await cxt.send("Charisma - cha, Constitution - con, Dexterity - dex, "
                        "Intelligence - int, Strength - str, Wisdom - wis")
+
+
+@bot.command()
+async def class_spells(cxt, arg):
+    arg = searchable(arg)
+    spell_list_endpoint = f"https://www.dnd5eapi.co/api/classes/{arg}/spells"
+    url = requests.get(url=spell_list_endpoint)
+    if url.status_code == 200 and arg in lists.casters_list:
+        class_spells_data = json.loads(url.content)
+        count = 0
+        list_of_class_spells = []
+        for entry in class_spells_data['results']:
+            list_of_class_spells.append(class_spells_data['results'][count]['name'])
+            count += 1
+        await cxt.send(f"Class: {arg.title()}")
+        await cxt.send(list_of_class_spells)
+
+    else:
+        await cxt.send("Sorry, we couldn't find the class spell list you're looking for. "
+                       "Maybe check spelling or a different command!, or"
+                       " double check that your class can cast spells.")
+
+
+@bot.command()
+async def conditions(cxt, arg):
+    arg = searchable(arg)
+    condition_endpoint = f"https://www.dnd5eapi.co/api/conditions/{arg}"
+    url = requests.get(url=condition_endpoint)
+    if url.status_code == 200:
+        conditions_data = json.loads(url.content)
+        await cxt.send(conditions_data['name'])
+        await cxt.send(conditions_data['desc'])
+
+
+@bot.command()
+async def damage_type(cxt, arg):
+    arg=searchable(arg)
+    damage_type_endpoint = f"https://www.dnd5eapi.co/api/damage-types/{arg}"
+    url = requests.get(url=damage_type_endpoint)
+    if url.status_code == 200:
+        damage_type_data = json.loads(url.content)
+        await cxt.send(damage_type_data['name'])
+        await cxt.send(damage_type_data['desc'])
+
+
+@bot.command()
+async def features(cxt, arg, arg2):
+    arg = searchable(arg)
+    dict_to_search = featrues.class_dicts[arg]
+    feature_to_search = dict_to_search[arg2]['desc']
+    await cxt.send(feature_to_search)
+
+
 bot.run(BOT_TOKEN)
