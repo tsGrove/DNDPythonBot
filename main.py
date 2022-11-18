@@ -4,7 +4,7 @@ import requests
 from env import BOT_TOKEN
 import json
 import lists
-import featrues
+from features import class_dicts
 
 
 def searchable(x):
@@ -251,9 +251,9 @@ async def damage_type(cxt, arg):
 @bot.command()
 async def features(cxt, arg, arg2):
     arg = searchable(arg)
-    dict_to_search = featrues.class_dicts[arg]
-    feature_to_search = dict_to_search[arg2]['desc']
-    await cxt.send(feature_to_search)
+    dict_to_search = class_dicts[arg]
+    await cxt.send(f"Level: {dict_to_search[arg2]['level']}")
+    await cxt.send(f"Description:\n{dict_to_search[arg2]['desc']}")
 
 
 bot.run(BOT_TOKEN)
