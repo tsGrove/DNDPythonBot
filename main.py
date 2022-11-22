@@ -5,6 +5,7 @@ from env import BOT_TOKEN
 import json
 import lists
 from features import class_dicts
+import random
 
 
 def searchable(x):
@@ -23,14 +24,22 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.event
 async def on_ready():
-    print('My body is ready')
+    number = random.randint(1, 20)
+    if 15 <= number < 20:
+        print('It hits!')
+    elif number == 20:
+        print('NAT 20 BABY')
+    else:
+        print('A swing and a miss, better luck next time.')
 
 
 @bot.command()
 async def info(cxt):
-    await cxt.send("Hi! Im a Dungeons and Dragons search bot designed by Shea. "
+    await cxt.send("Hi! Im a Dungeons and Dragons search bot designed by Shea.\n"
+                   "Please state the command first followed by what you would like to search.\n"
+                   "For searches with multiple words please enclose them in \" \", \n"
                    "Here are a list of commands I have available:\n"
-                   "!spell-search: Returns information about a desired spell, "
+                   "!spell_search: Returns information about a desired spell, "
                    "separate two word spells with a character, like , . - or _\n"
                    "!spell_list: Creates a list of spells for the user based on "
                    "either School of Magic, or spell level.\n"
@@ -38,7 +47,14 @@ async def info(cxt):
                    " hit die, spell-casting, and class features.\n"
                    "!skills: Gives a brief description of a skill as well as its governing ability.\n"
                    "!ability_score:A brief description of the ability check as well as skills it governs,"
-                   "be sure to use the 3 characters associated with the ability, not full name.")
+                   "be sure to use the 3 characters associated with the ability, not full name.\n"
+                   "!class_spells: returns a list of spells your class is capable of learning, not"
+                   "including subclasses that add to your spell list.\n"
+                   "!conditions:gives a brief description of possible conditions an NPC or PC can suffer from, like "
+                   "blinded, deafened, prone, etc.\n"
+                   "!damage_type:gives a brief description of a damage type, like fire, cold, necrotic, etc.\n"
+                   "!features: allows you to search for descriptions of class features such as ability score"
+                   "improvements, barbarian rage, wizard arcane recovery, bardic inspiration, etc.")
 
 
 @bot.command()
@@ -70,33 +86,30 @@ async def class_info(cxt, arg):
             skill_variable = skill_variable.replace('Skill: ', '')
             skills.append(skill_variable)
 
-        await cxt.send(
-            f"Class: {class_name}, Hit Die: d{hit_die}, Can pick {num_of_prof} proficiencies, from: {skills}")
+        await cxt.send(f"Class: {class_name}, Hit Die: d{hit_die}, Can pick {num_of_prof} proficiencies, from: {skills}")
         await cxt.send(f"The {class_name} gains these proficiencies by default: {free_shit}")
-        await cxt.send("Would you like to hear about your class spell-casting as well?")
+        if arg in lists.casters_list:
+            await cxt.send("Would you like to hear about your class spell-casting as well?")
+            msg = await bot.wait_for("message")
 
-        msg = await bot.wait_for("message")
+            if msg.content == 'yes'.lower():
+                url2 = requests.get(url=spellcasting_info)
+                if url2.status_code == 200 and arg in lists.casters_list:
+                    try:
+                        url2.raise_for_status()
+                        spellcasting_data = json.loads(url2.content)
+                        number = 0
+                        for desc in spellcasting_data['info']:
+                            number += 1
+                            await cxt.send(spellcasting_data['info'][number]['desc'])
+                    except IndexError:
+                        pass
 
-        if msg.content == 'yes'.lower():
+            elif msg.content == 'no'.lower():
+                await cxt.send('Gotcha!')
 
-            url2 = requests.get(url=spellcasting_info)
-            if url2.status_code == 200:
-                try:
-                    url2.raise_for_status()
-                    spellcasting_data = json.loads(url2.content)
-                    number = 0
-                    for desc in spellcasting_data['info']:
-                        number += 1
-                        await cxt.send(spellcasting_data['info'][number]['desc'])
-                except IndexError:
-                    pass
-
-        elif msg.content == 'no'.lower():
-            await cxt.send('Well okay :-)')
-
-        else:
-            await cxt.send("Sorry! It looks like your class doesn't have spellcasting as an ability, or "
-                           "you entered a response that im not familiar with.")
+            else:
+                await cxt.send('Huh?')
 
 
 @bot.command()

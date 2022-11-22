@@ -1,4 +1,4 @@
-#TODO: META MAGIC FOR SORC_FEATURES, BREAKS 2k CHARACTER LIMIT, AS WELL AS WARLOCK'S PACT BOON
+# TODO: META MAGIC FOR SORC_FEATURES, BREAKS 2k CHARACTER LIMIT, AS WELL AS WARLOCK'S PACT BOON
 
 barbarian_features = {
     "rage": {
@@ -236,56 +236,56 @@ cleric_features = {
 
 druid_features = {
     'wild shape': {
-        'level' : '2',
-        'desc' : 'Starting at 2nd level, you can use your action to magically assume the shape of a beast that you'
-                 ' have seen before. You can use this feature twice. You regain expended uses when you finish a '
-                 'short or long rest.\n'
-                 'Your druid level determines the beasts you can transform into, as shown in the Beast Shapes table.'
-                 ' At 2nd level, for example, you can transform into any beast that has a challenge rating of 1/4 or'
-                 ' lower that doesn’t have a flying or swimming speed.'
+        'level': '2',
+        'desc': 'Starting at 2nd level, you can use your action to magically assume the shape of a beast that you'
+                ' have seen before. You can use this feature twice. You regain expended uses when you finish a '
+                'short or long rest.\n'
+                'Your druid level determines the beasts you can transform into, as shown in the Beast Shapes table.'
+                ' At 2nd level, for example, you can transform into any beast that has a challenge rating of 1/4 or'
+                ' lower that doesn’t have a flying or swimming speed.'
     },
     'druid circle': {
-            'level' : '2',
-            'desc' : 'At 2nd level, you choose to identify with a circle of druids: the Circle of the Land detailed at'
-                     ' the end of the class description or one from the Players Handbook or other sources. Your'
-                     ' choice grants you features at 2nd level and again at 6th, 10th, and 14th level.'
-        },
+        'level': '2',
+        'desc': 'At 2nd level, you choose to identify with a circle of druids: the Circle of the Land detailed at'
+                ' the end of the class description or one from the Players Handbook or other sources. Your'
+                ' choice grants you features at 2nd level and again at 6th, 10th, and 14th level.'
+    },
     'wild shape improvement': {
-            'level' : '4',
-            'desc' : 'At 4th level, you can use your action to magically assume the shape of a beast that you have'
-                     ' seen before of challenge rating 1/2 or lower that doesnt have a flying speed. You can use '
-                     'this feature twice. You regain expended uses when you finish a short or long rest.'
-        },
+        'level': '4',
+        'desc': 'At 4th level, you can use your action to magically assume the shape of a beast that you have'
+                ' seen before of challenge rating 1/2 or lower that doesnt have a flying speed. You can use '
+                'this feature twice. You regain expended uses when you finish a short or long rest.'
+    },
     'ability score impovement': {
-            'level' : '4',
-            'desc' : 'When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one'
-                     ' ability score of your choice by 2, or you can increase two ability scores of your choice by 1.'
-                     ' As normal, you can’t increase an ability score above 20 using this feature.'
-        },
+        'level': '4',
+        'desc': 'When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one'
+                ' ability score of your choice by 2, or you can increase two ability scores of your choice by 1.'
+                ' As normal, you can’t increase an ability score above 20 using this feature.'
+    },
     'wild shape improvement 2': {
-            'level' : '8',
-            'desc' : 'At 8th level, you can use your action to magically assume the shape of a beast that you have '
-                     'seen before of challenge rating 1 or lower. You can use this feature twice. You regain expended '
-                     'uses when you finish a short or long rest.'
-        },
+        'level': '8',
+        'desc': 'At 8th level, you can use your action to magically assume the shape of a beast that you have '
+                'seen before of challenge rating 1 or lower. You can use this feature twice. You regain expended '
+                'uses when you finish a short or long rest.'
+    },
     'timeless body': {
-            'level' : '18',
-            'desc' : 'Starting at 18th level, the primal magic that you wield causes you to age more slowly.'
-                     ' For every 10 years that pass, your body ages only 1 year.'
-        },
+        'level': '18',
+        'desc': 'Starting at 18th level, the primal magic that you wield causes you to age more slowly.'
+                ' For every 10 years that pass, your body ages only 1 year.'
+    },
     'beast spells': {
-            'level' : '18',
-            'desc' : 'Beginning at 18th level, you can cast many of your druid spells in any shape you assume '
-                     'using Wild Shape. You can perform the somatic and verbal components of a druid spell while'
-                     ' in a beast shape, but you aren’t able to provide material components.'
-        },
+        'level': '18',
+        'desc': 'Beginning at 18th level, you can cast many of your druid spells in any shape you assume '
+                'using Wild Shape. You can perform the somatic and verbal components of a druid spell while'
+                ' in a beast shape, but you aren’t able to provide material components.'
+    },
     'archdruid': {
-            'level' : '20',
-            'desc' : 'At 20th level, you can use your Wild Shape an unlimited number of times.\n'
-                     'Additionally, you can ignore the verbal and somatic components of your druid spells, '
-                     'as well as any material components that lack a cost and aren’t consumed by a spell. '
-                     'You gain this benefit in both your normal shape and your beast shape from Wild Shape.'
-        },
+        'level': '20',
+        'desc': 'At 20th level, you can use your Wild Shape an unlimited number of times.\n'
+                'Additionally, you can ignore the verbal and somatic components of your druid spells, '
+                'as well as any material components that lack a cost and aren’t consumed by a spell. '
+                'You gain this benefit in both your normal shape and your beast shape from Wild Shape.'
+    },
 }
 
 fighter_features = {
@@ -312,35 +312,35 @@ fighter_features = {
                 'of the second attack.'
     },
     'second wind': {
-            'level' : '1',
-            'desc' : 'You have a limited well of stamina that you can draw on to protect yourself from harm.'
-                     ' On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter'
-                     ' level. Once you use this feature, you must finish a short or long rest before you can use'
-                     ' it again.'
-        },
+        'level': '1',
+        'desc': 'You have a limited well of stamina that you can draw on to protect yourself from harm.'
+                ' On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter'
+                ' level. Once you use this feature, you must finish a short or long rest before you can use'
+                ' it again.'
+    },
     'action surge': {
-            'level' : '2',
-            'desc' : 'Starting at 2nd level, you can push yourself beyond your normal limits for a moment.'
-                      ' On your turn, you can take one additional action.\n'
-                     'Once you use this feature, you must finish a short or long rest before you can use it again. '
-                     'Starting at 17th level, you can use it twice before a rest, but only once on the same turn.'
-        },
+        'level': '2',
+        'desc': 'Starting at 2nd level, you can push yourself beyond your normal limits for a moment.'
+                ' On your turn, you can take one additional action.\n'
+                'Once you use this feature, you must finish a short or long rest before you can use it again. '
+                'Starting at 17th level, you can use it twice before a rest, but only once on the same turn.'
+    },
     'martial archetype': {
-            'level' : '3',
-            'desc' : 'At 3rd level, you choose an archetype that you strive to emulate in your combat styles and '
-                     'techniques. Choose Champion, Battle Master, or Eldritch Knight, all detailed at the end of '
-                     'the class description. The archetype you choose grants you features at 3rd level and again'
-                     ' at 7th, 10th, 15th, and 18th level.'
-        },
+        'level': '3',
+        'desc': 'At 3rd level, you choose an archetype that you strive to emulate in your combat styles and '
+                'techniques. Choose Champion, Battle Master, or Eldritch Knight, all detailed at the end of '
+                'the class description. The archetype you choose grants you features at 3rd level and again'
+                ' at 7th, 10th, 15th, and 18th level.'
+    },
 
     'ability score improvement': {
-            'level' : '4',
-            'desc' : 'When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level,'
-                     ' you can increase one ability score of your choice by 2, or you can increase two ability'
-                     ' scores of your choice by 1. As normal, you can’t increase an ability score above 20 using'
-                     ' this feature.'
-        },
-    'extra attacl':{
+        'level': '4',
+        'desc': 'When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level,'
+                ' you can increase one ability score of your choice by 2, or you can increase two ability'
+                ' scores of your choice by 1. As normal, you can’t increase an ability score above 20 using'
+                ' this feature.'
+    },
+    'extra attacl': {
         'level': '5',
         'desc': 'Beginning at 5th level, you can attack twice, instead of once, whenever you take the'
                 'Attack action on your turn.\n'
@@ -498,7 +498,7 @@ monk_features = {
     'empty body': {
         'level': '18',
         'desc': 'Beginning at 18th level, you can use your action to spend 4 ki points to become invisible'
-                 ' for 1 minute. During that time, you also have resistance to all damage but force damage.\n'
+                ' for 1 minute. During that time, you also have resistance to all damage but force damage.\n'
                 'Additionally, you can spend 8 ki points to cast the astral projection spell, without needing material'
                 ' components. When you do so, you can’t take any other creatures with you.',
     },
@@ -534,27 +534,27 @@ paladin_features = {
                 'This feature has no effect on undead and constructs.',
     },
     'fighting style': {
-            'level': '1',
-            'desc': 'You adopt a particular style of fighting as your specialty. Choose one of the following options. '
-                    'You can’t take a Fighting Style option more than once, even if you later get to choose again.\n'
-                    'Archery:\n'
-                    'You gain a +2 bonus to attack rolls you make with ranged weapons.\n'
-                    'Defense:\n'
-                    'While you are wearing armor, you gain a +1 to AC.\n'
-                    'Dueling:\n'
-                    'When you are wielding a melee weapon in one and no other weapons, you gain a +2 to damage rolls'
-                    'made with that weapon.\n'
-                    'Great Weapon Fighting:\n'
-                    'When you roll 1 or 2 on a damage die for an attack you make with a melee weapon that you are'
-                    'wielding with two hands, you can reroll the die and must use the new roll, even if the new roll is'
-                    'a 1 or a 2. The weapon must have the two-handed or versatile property for you to gain this benefit\n'
-                    'Protection:\n'
-                    'When a creature you can see attacks a target other than you that is within 5ft of you, you can'
-                    'use your reaction to impose disadvantage on the roll. You must be wielding a shield\n'
-                    'Two-Weapon Fighting:\n'
-                    'When you engage in two-weapon fighting, you can add your ability modifier to the damage'
-                    'of the second attack.'
-        },
+        'level': '1',
+        'desc': 'You adopt a particular style of fighting as your specialty. Choose one of the following options. '
+                'You can’t take a Fighting Style option more than once, even if you later get to choose again.\n'
+                'Archery:\n'
+                'You gain a +2 bonus to attack rolls you make with ranged weapons.\n'
+                'Defense:\n'
+                'While you are wearing armor, you gain a +1 to AC.\n'
+                'Dueling:\n'
+                'When you are wielding a melee weapon in one and no other weapons, you gain a +2 to damage rolls'
+                'made with that weapon.\n'
+                'Great Weapon Fighting:\n'
+                'When you roll 1 or 2 on a damage die for an attack you make with a melee weapon that you are'
+                'wielding with two hands, you can reroll the die and must use the new roll, even if the new roll is'
+                'a 1 or a 2. The weapon must have the two-handed or versatile property for you to gain this benefit\n'
+                'Protection:\n'
+                'When a creature you can see attacks a target other than you that is within 5ft of you, you can'
+                'use your reaction to impose disadvantage on the roll. You must be wielding a shield\n'
+                'Two-Weapon Fighting:\n'
+                'When you engage in two-weapon fighting, you can add your ability modifier to the damage'
+                'of the second attack.'
+    },
     'divine smite': {
         'level': '3',
         'desc': 'Starting at 2nd level, when you hit a creature with a melee weapon attack, you can expend one '
@@ -985,13 +985,10 @@ wizard_features = {
                 'If you want to cast either spell at a higher level, you must expend a spell slot as normal.',
     },
 }
-    #
-    # '': {
-    #     'level': '',
-    #     'desc': '',
-    # },
 
-class_dicts = {'barbarian': barbarian_features, 'bard': bard_features, 'cleric': cleric_features,
-               'druid': druid_features, 'fighter': fighter_features, 'monk': monk_features, 'paladin': paladin_features,
-               'ranger': ranger_features, 'rogue': rogue_features, 'sorcerer': sorcerer_features, 'warlock': warlock_features,
-               'wizard': wizard_features}
+class_dicts = {
+    'barbarian': barbarian_features, 'bard': bard_features, 'cleric': cleric_features,
+    'druid': druid_features, 'fighter': fighter_features, 'monk': monk_features, 'paladin': paladin_features,
+    'ranger': ranger_features, 'rogue': rogue_features, 'sorcerer': sorcerer_features, 'warlock': warlock_features,
+    'wizard': wizard_features
+}
