@@ -97,7 +97,7 @@ barbarian_features = {
 }
 
 bard_features = {
-    'bardic_inspiration': {
+    'bardic inspiration': {
         'level': '1',
         'desc': 'You can inspire others through stirring words or music. To do so, '
                 'you use a bonus action on your turn to choose one creature other than yourself within '

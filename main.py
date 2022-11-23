@@ -6,6 +6,8 @@ import json
 import lists
 from features import class_dicts
 import random
+from tabulate import tabulate
+tabulate.PRESERVE_WHITESPACE = True
 
 
 def searchable(x):
@@ -35,12 +37,12 @@ async def on_ready():
 
 @bot.command()
 async def info(cxt):
-    await cxt.send("Hi! Im a Dungeons and Dragons search bot designed by Shea.\n"
+    await cxt.send("Hi! Im a Dungeons and Dragons search bot designed by tsGrove.\n"
                    "Please state the command first followed by what you would like to search.\n"
                    "For searches with multiple words please enclose them in \" \", \n"
                    "Here are a list of commands I have available:\n"
                    "!spell_search: Returns information about a desired spell, "
-                   "separate two word spells with a character, like , . - or _\n"
+                   "again be sure to enclose multi-worded spells with \" \" \n"
                    "!spell_list: Creates a list of spells for the user based on "
                    "either School of Magic, or spell level.\n"
                    "!class_info: Returns information about specified class including proficiencies,"
@@ -54,7 +56,11 @@ async def info(cxt):
                    "blinded, deafened, prone, etc.\n"
                    "!damage_type:gives a brief description of a damage type, like fire, cold, necrotic, etc.\n"
                    "!features: allows you to search for descriptions of class features such as ability score"
-                   "improvements, barbarian rage, wizard arcane recovery, bardic inspiration, etc.")
+                   "improvements, barbarian rage, wizard arcane recovery, bardic inspiration, etc.\n"
+                   "Here are examples of each command in use:\n"
+                   "!spell_search \"animate dead\", !spell_list evocation or 6, !class_info bard, !skills arcana, "
+                   "!ability_score str, !class_spells druid, !conditions poisoned, !damage_type radiant, !features "
+                   "!features fighter \"action surge\"")
 
 
 @bot.command()
@@ -267,6 +273,38 @@ async def features(cxt, arg, arg2):
     dict_to_search = class_dicts[arg]
     await cxt.send(f"Level: {dict_to_search[arg2]['level']}")
     await cxt.send(f"Description:\n{dict_to_search[arg2]['desc']}")
+
+
+@bot.command()
+async def spell_slots(cxt, arg):
+    arg = searchable(arg)
+    spell_slots_endpoint = f"https://www.dnd5eapi.co/api/classes/{arg}/levels"
+    url = requests.get(url=spell_slots_endpoint)
+    if url.status_code == 200:
+        data = json.loads(url.content)
+        slots_per_level = []
+        count = 0
+        level = 1
+        if "spells_known" in data[0]['spellcasting']:
+            for fuck in data:
+                slots = list(data[count]['spellcasting'].values())
+                spells_known = data[count]['spellcasting']['spells_known']
+                level_info = level, data[count]['spellcasting'].pop("cantrips_known"), spells_known, slots[2:]
+                slots_per_level.append(level_info)
+                count += 1
+                level += 1
+            # await cxt.send('Level, Cantrips Known, Spells Known, Spell Slots Per Level')
+            await cxt.send(tabulate(slots_per_level, headers=['Level', 'Cantrips Known', 'Spells Known', 'Spell Slots'
+                                                             ' Per Level'], tablefmt="pretty"))
+        else:
+            for fuck in data:
+                slots = list(data[count]['spellcasting'].values())
+                level_info = level, data[count]['spellcasting'].pop("cantrips_known"), slots[1:]
+                slots_per_level.append(level_info)
+                count += 1
+                level += 1
+            await cxt.send('Level, Cantrips Known, Spell Slots Per Level')
+            await cxt.send(tabulate(slots_per_level, tablefmt="pretty"))
 
 
 bot.run(BOT_TOKEN)
