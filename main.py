@@ -81,11 +81,11 @@ async def class_info(cxt, arg):
         starting_profs = class_data['proficiencies']
 
         skills = []
-        free_shit = []
+        free_proficincies = []
 
         for item in starting_profs:
             start = item['name']
-            free_shit.append(start)
+            free_proficincies.append(start)
 
         for skill in skill_prof:
             skill_variable = skill['item']['name']
@@ -93,7 +93,7 @@ async def class_info(cxt, arg):
             skills.append(skill_variable)
 
         await cxt.send(f"Class: {class_name}, Hit Die: d{hit_die}, Can pick {num_of_prof} proficiencies, from: {skills}")
-        await cxt.send(f"The {class_name} gains these proficiencies by default: {free_shit}")
+        await cxt.send(f"The {class_name} gains these proficiencies by default: {free_proficincies}")
         if arg in lists.casters_list:
             await cxt.send("Would you like to hear about your class spell-casting as well?")
             msg = await bot.wait_for("message")
@@ -105,7 +105,7 @@ async def class_info(cxt, arg):
                         url2.raise_for_status()
                         spellcasting_data = json.loads(url2.content)
                         number = 0
-                        for desc in spellcasting_data['info']:
+                        for _ in spellcasting_data['info']:
                             number += 1
                             await cxt.send(spellcasting_data['info'][number]['desc'])
                     except IndexError:
@@ -169,7 +169,7 @@ async def spell_list(cxt, arg):
         entry = 0
         spells = []
 
-        for spell in information['results']:
+        for _ in information['results']:
             spells.append(information['results'][entry]['name'])
             entry += 1
         await cxt.send(spells)
@@ -182,7 +182,7 @@ async def spell_list(cxt, arg):
         entry = 0
         spells = []
 
-        for spell in information['results']:
+        for _ in information['results']:
             spells.append(information['results'][entry]['name'])
             entry += 1
         await cxt.send(spells)
@@ -233,7 +233,7 @@ async def class_spells(cxt, arg):
         class_spells_data = json.loads(url.content)
         count = 0
         list_of_class_spells = []
-        for entry in class_spells_data['results']:
+        for _ in class_spells_data['results']:
             list_of_class_spells.append(class_spells_data['results'][count]['name'])
             count += 1
         await cxt.send(f"Class: {arg.title()}")
@@ -286,25 +286,25 @@ async def spell_slots(cxt, arg):
         count = 0
         level = 1
         if "spells_known" in data[0]['spellcasting']:
-            for fuck in data:
+            for _ in data:
                 slots = list(data[count]['spellcasting'].values())
                 spells_known = data[count]['spellcasting']['spells_known']
                 level_info = level, data[count]['spellcasting'].pop("cantrips_known"), spells_known, slots[2:]
                 slots_per_level.append(level_info)
                 count += 1
                 level += 1
-            # await cxt.send('Level, Cantrips Known, Spells Known, Spell Slots Per Level')
             await cxt.send(tabulate(slots_per_level, headers=['Level', 'Cantrips Known', 'Spells Known', 'Spell Slots'
                                                              ' Per Level'], tablefmt="pretty"))
         else:
-            for fuck in data:
+            for _ in data:
                 slots = list(data[count]['spellcasting'].values())
                 level_info = level, data[count]['spellcasting'].pop("cantrips_known"), slots[1:]
                 slots_per_level.append(level_info)
                 count += 1
                 level += 1
             await cxt.send('Level, Cantrips Known, Spell Slots Per Level')
-            await cxt.send(tabulate(slots_per_level, tablefmt="pretty"))
+            await cxt.send(tabulate(slots_per_level, headers=['Level', 'Cantrips Known', 'Spell Slots Per Level'],
+                                    tablefmt="pretty"))
 
 
 bot.run(BOT_TOKEN)
